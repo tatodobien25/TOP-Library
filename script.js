@@ -5,13 +5,7 @@ function Book(title, author, pages, readAlready) {
   this.author = author;
   this.pages = pages;
   this.readAlready = readAlready;
-  // this.info = function () {
-  //   let readStatus = "read already";
-  //   if (!readAlready) {
-  //     readStatus = "not read yet"
-  //   };
-  //   return `${title} by ${author}, ${pages} pages, ${readStatus}`;
-  // }
+
 }
 
 Book.prototype.info = function () {
@@ -23,11 +17,19 @@ Book.prototype.info = function () {
 }
 
 
-function addBookToLibrary(newBook) {
-  myLibrary.push(newBook);
+function addBookToLibrary(Book) {
+  myLibrary.push(Book);
 }
 
-function addBookBtnHandler(newBook) {
+function addBookBtnHandler() {
+  let newBookTitle = prompt("Write the title of the book:");
+  let newBookAuthor = prompt("Write the author of the book:");
+  let newBookPages = +prompt("Write the number of pages of the book:");
+  let newBookReadAlready = confirm("Click'OK' if you have already read this book.");
+  let newBook = new Book(newBookTitle, newBookAuthor, newBookPages, newBookReadAlready);
+  newBook.prototype = Object.create(Book.prototype);
+
+
   let cardContainer = document.createElement('div');
   cardContainer.classList.add('flex-container');
   let bookInfoDisplay = document.createElement('p');
