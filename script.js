@@ -5,7 +5,6 @@ function Book(title, author, pages, readAlready) {
   this.author = author;
   this.pages = pages;
   this.readAlready = readAlready;
-
 }
 
 Book.prototype.info = function () {
@@ -13,9 +12,8 @@ Book.prototype.info = function () {
   if (!this.readAlready) {
     readStatus = "not read yet";
   };
-  return `${this.title} by ${this.author}, ${this.pages} pages, ${readStatus}`;
+  return `"${this.title}" by ${this.author}, ${this.pages} pages, ${readStatus}.`;
 }
-
 
 function addBookToLibrary(Book) {
   myLibrary.push(Book);
@@ -28,22 +26,38 @@ function addBookBtnHandler() {
   let newBookReadAlready = confirm("Click'OK' if you have already read this book.");
   let newBook = new Book(newBookTitle, newBookAuthor, newBookPages, newBookReadAlready);
   newBook.prototype = Object.create(Book.prototype);
-
-
-  let cardContainer = document.createElement('div');
-  cardContainer.classList.add('flex-container');
-  let bookInfoDisplay = document.createElement('p');
-  bookInfoDisplay.textContent = newBook.info();
-  cardContainer.appendChild(bookInfoDisplay);
-  bookCardsContainer.appendChild(cardContainer);
+  createBookCard(newBook);
   addBookToLibrary(newBook);
 }
 
+function createBookCard(Book) {
+  let cardContainer = document.createElement('div');
+  cardContainer.classList.add('flex-container');
+  cardContainer.classList.add('book-card');
+  let bookInfoDisplay = document.createElement('p');
+  bookInfoDisplay.classList.add('book-info');
+  bookInfoDisplay.textContent = Book.info();
+  cardContainer.appendChild(bookInfoDisplay);
+  bookShelf.appendChild(cardContainer);
+}
+
+function addBookPrototype(bookObject) {
+  bookObject.prototype = Object.create(Book.prototype);
+}
 
 let myLibrary = [];
-let ensayoSobreLaCeguera = new Book("Ensayo sobre la Ceguera", "Jose Saramago", 295, true);
 const addBookBtn = document.querySelector('#add-book-btn');
-const bookCardsContainer = document.querySelector('div.bookshelves');
+const bookShelf = document.querySelector('div.bookshelf');
 addBookBtn.addEventListener('click', addBookBtnHandler);
 
-ensayoSobreLaCeguera.prototype = Object.create(Book.prototype);
+// the next books are for initially populate the library array
+const ensayoSobreLaCeguera = new Book("Ensayo sobre la Ceguera", "Jose Saramago", 295, true);
+addBookPrototype(ensayoSobreLaCeguera);
+const phantomOfTheOpera = new Book("The Phantom Of The Opera", "Gaston Leroux", 145, true);
+addBookPrototype(phantomOfTheOpera);
+const andThenThereWereNone = new Book("And Then there Were None", "Agatha Christie", 272, true);
+addBookPrototype(andThenThereWereNone);
+const laVidaQueSeVa = new Book("La Vida Que Se Va", "Vicente Lenero", 100, true);
+addBookPrototype(laVidaQueSeVa);
+const laTregua = new Book("La Tregua", "Mario Benedetti", 300, true);
+addBookPrototype(laTregua);

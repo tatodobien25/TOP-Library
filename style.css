@@ -16,3 +16,27 @@ body {
   align-items: center;
 
 }
+
+div.bookshelf {
+  margin: 5px;
+  border: 2px solid #444;
+  background: #1188ff22;
+  width: 500px;
+  height: 50%;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
+
+.book-card {
+  width: 150px;
+  height: 400px;
+  border: 2px solid #444;
+  background: #eee;
+}
+
+.book-info {
+  margin: 5px;
+  padding: 5px;
+  border: 2px solid #444;
+
+}
