@@ -26,8 +26,16 @@ function addBookBtnHandler() {
   let newBookReadAlready = confirm("Click'OK' if you have already read this book.");
   let newBook = new Book(newBookTitle, newBookAuthor, newBookPages, newBookReadAlready);
   newBook.prototype = Object.create(Book.prototype);
-  createBookCard(newBook);
   addBookToLibrary(newBook);
+  removeAllChildNodes(bookshelf);
+  myLibrary.forEach(createBookCard);
+
+}
+
+function removeAllChildNodes(parent) {
+  while (parent.firstChild) {
+    parent.removeChild(parent.firstChild);
+  }
 }
 
 function createBookCard(Book) {
@@ -38,7 +46,7 @@ function createBookCard(Book) {
   bookInfoDisplay.classList.add('book-info');
   bookInfoDisplay.textContent = Book.info();
   cardContainer.appendChild(bookInfoDisplay);
-  bookShelf.appendChild(cardContainer);
+  bookshelf.appendChild(cardContainer);
 }
 
 function addBookPrototype(bookObject) {
@@ -47,7 +55,7 @@ function addBookPrototype(bookObject) {
 
 let myLibrary = [];
 const addBookBtn = document.querySelector('#add-book-btn');
-const bookShelf = document.querySelector('div.bookshelf');
+const bookshelf = document.querySelector('div.bookshelf');
 addBookBtn.addEventListener('click', addBookBtnHandler);
 
 // the next books are for initially populate the library array
@@ -61,3 +69,6 @@ const laVidaQueSeVa = new Book("La Vida Que Se Va", "Vicente Lenero", 100, true)
 addBookPrototype(laVidaQueSeVa);
 const laTregua = new Book("La Tregua", "Mario Benedetti", 300, true);
 addBookPrototype(laTregua);
+
+const exampleLibrary = [ensayoSobreLaCeguera, phantomOfTheOpera, andThenThereWereNone, laVidaQueSeVa, laTregua];
+exampleLibrary.forEach(addBookToLibrary);
