@@ -45,7 +45,13 @@ function createBookCard(Book) {
   let bookInfoDisplay = document.createElement('p');
   bookInfoDisplay.classList.add('book-info');
   bookInfoDisplay.textContent = Book.info();
+
+  let removeButton = document.createElement('button');
+  removeButton.classList.add('remove-btn')
+  removeButton.innerText = 'Remove from library';
   cardContainer.appendChild(bookInfoDisplay);
+  cardContainer.appendChild(removeButton);
+  removeButton.addEventListener('click', removeBtnHandler);
   bookshelf.appendChild(cardContainer);
 }
 
@@ -53,22 +59,26 @@ function addBookPrototype(bookObject) {
   bookObject.prototype = Object.create(Book.prototype);
 }
 
+function removeBtnHandler(e) {
+  console.log(this.parentElement);
+  // console.log(e);
+  // console.log('hello');
+
+}
+
 let myLibrary = [];
 const addBookBtn = document.querySelector('#add-book-btn');
 const bookshelf = document.querySelector('div.bookshelf');
 addBookBtn.addEventListener('click', addBookBtnHandler);
 
+
 // the next books are for initially populate the library array
 const ensayoSobreLaCeguera = new Book("Ensayo sobre la Ceguera", "Jose Saramago", 295, true);
-addBookPrototype(ensayoSobreLaCeguera);
 const phantomOfTheOpera = new Book("The Phantom Of The Opera", "Gaston Leroux", 145, true);
-addBookPrototype(phantomOfTheOpera);
 const andThenThereWereNone = new Book("And Then there Were None", "Agatha Christie", 272, true);
-addBookPrototype(andThenThereWereNone);
 const laVidaQueSeVa = new Book("La Vida Que Se Va", "Vicente Lenero", 100, true);
-addBookPrototype(laVidaQueSeVa);
 const laTregua = new Book("La Tregua", "Mario Benedetti", 300, true);
-addBookPrototype(laTregua);
 
 const exampleLibrary = [ensayoSobreLaCeguera, phantomOfTheOpera, andThenThereWereNone, laVidaQueSeVa, laTregua];
+exampleLibrary.forEach(addBookPrototype);
 exampleLibrary.forEach(addBookToLibrary);
