@@ -15,8 +15,30 @@ Book.prototype.info = function () {
   return `"${this.title}" by ${this.author}, ${this.pages} pages, ${readStatus}.`;
 }
 
-function addBookToLibrary(Book) {
-  myLibrary.push(Book);
+function addBookToLibrary(bookObject) {
+  myLibrary.push(bookObject);
+
+}
+
+function createBookCard(bookObject) {
+  let cardDiv = document.createElement('div');
+  cardDiv.classList.add('flex-container');
+  cardDiv.classList.add('book-card');
+
+  let bookInfoDisplay = document.createElement('p');
+  bookInfoDisplay.classList.add('book-info');
+  bookInfoDisplay.textContent = bookObject.info();
+
+  let removeButton = document.createElement('button');
+  removeButton.classList.add('remove-btn')
+  removeButton.innerText = 'Remove from library';
+
+  cardDiv.appendChild(bookInfoDisplay);
+  cardDiv.appendChild(removeButton);
+  //here is the 'data-attribute' first used! .setAttribute
+  cardDiv.setAttribute('data-index', myLibrary.indexOf(bookObject));
+  removeButton.addEventListener('click', removeBtnHandler);
+  bookshelf.appendChild(cardDiv);
 }
 
 function addBookBtnHandler() {
@@ -26,6 +48,7 @@ function addBookBtnHandler() {
   let newBookReadAlready = confirm("Click'OK' if you have already read this book.");
   let newBook = new Book(newBookTitle, newBookAuthor, newBookPages, newBookReadAlready);
   newBook.prototype = Object.create(Book.prototype);
+  //the line below, is a simple array.push
   addBookToLibrary(newBook);
   removeAllChildNodes(bookshelf);
   myLibrary.forEach(createBookCard);
@@ -38,29 +61,12 @@ function removeAllChildNodes(parent) {
   }
 }
 
-function createBookCard(Book) {
-  let cardContainer = document.createElement('div');
-  cardContainer.classList.add('flex-container');
-  cardContainer.classList.add('book-card');
-  let bookInfoDisplay = document.createElement('p');
-  bookInfoDisplay.classList.add('book-info');
-  bookInfoDisplay.textContent = Book.info();
-
-  let removeButton = document.createElement('button');
-  removeButton.classList.add('remove-btn')
-  removeButton.innerText = 'Remove from library';
-  cardContainer.appendChild(bookInfoDisplay);
-  cardContainer.appendChild(removeButton);
-  removeButton.addEventListener('click', removeBtnHandler);
-  bookshelf.appendChild(cardContainer);
-}
-
 function addBookPrototype(bookObject) {
   bookObject.prototype = Object.create(Book.prototype);
 }
 
 function removeBtnHandler(e) {
-  console.log(this.parentElement);
+  console.log(this.parentElement.getAttribute('data-index'));
   // console.log(e);
   // console.log('hello');
 
