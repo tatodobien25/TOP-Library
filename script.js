@@ -52,6 +52,7 @@ function addBookBtnHandler() {
   addBookToLibrary(newBook);
   removeAllChildNodes(bookshelf);
   myLibrary.forEach(createBookCard);
+  myLibrary.forEach(librito => console.log(myLibrary.indexOf(librito)));
 
 }
 
@@ -66,9 +67,19 @@ function addBookPrototype(bookObject) {
 }
 
 function removeBtnHandler(e) {
-  console.log(this.parentElement.getAttribute('data-index'));
+  // console.log(this.parentElement.getAttribute('data-index'));
+  // console.log(this.parentElement.firstChild);
+  // console.log(this);
+  // console.log(this.parentElement);
+  // console.log(this.parentElement.parentElement);
   // console.log(e);
   // console.log('hello');
+  let borrado = myLibrary.splice(this.parentElement.getAttribute('data-index'), 1);
+  removeAllChildNodes(bookshelf);
+  myLibrary.forEach(createBookCard);
+  console.log(borrado);
+  console.log(myLibrary);
+  myLibrary.forEach(librito => console.log(myLibrary.indexOf(librito)));
 
 }
 
