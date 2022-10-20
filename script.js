@@ -8,11 +8,16 @@ function Book(title, author, pages, readAlready) {
 }
 
 Book.prototype.info = function () {
-  let readStatus = "read already";
+
+  return `"${this.title}" by ${this.author}, ${this.pages} pages.`;
+}
+
+Book.prototype.readStatus = function () {
+  let status = "read already";
   if (!this.readAlready) {
-    readStatus = "not read yet";
+    status = "not read yet";
   };
-  return `"${this.title}" by ${this.author}, ${this.pages} pages, ${readStatus}.`;
+  return status;
 }
 
 function addBookToLibrary(bookObject) {
@@ -33,8 +38,13 @@ function createBookCard(bookObject) {
   removeButton.classList.add('remove-btn')
   removeButton.innerText = 'Remove from library';
 
+  let readStatusButton = document.createElement('button');
+  readStatusButton.classList.add('read-status-btn')
+  readStatusButton.innerText = bookObject.readStatus()
+
   cardDiv.appendChild(bookInfoDisplay);
   cardDiv.appendChild(removeButton);
+  cardDiv.appendChild(readStatusButton)
   //here is the 'data-attribute' first used! .setAttribute
   cardDiv.setAttribute('data-index', myLibrary.indexOf(bookObject));
   removeButton.addEventListener('click', removeBtnHandler);
@@ -53,7 +63,6 @@ function addBookBtnHandler() {
   removeAllChildNodes(bookshelf);
   myLibrary.forEach(createBookCard);
   myLibrary.forEach(librito => console.log(myLibrary.indexOf(librito)));
-
 }
 
 function removeAllChildNodes(parent) {
@@ -67,35 +76,15 @@ function addBookPrototype(bookObject) {
 }
 
 function removeBtnHandler(e) {
-  // console.log(this.parentElement.getAttribute('data-index'));
-  // console.log(this.parentElement.firstChild);
-  // console.log(this);
-  // console.log(this.parentElement);
-  // console.log(this.parentElement.parentElement);
-  // console.log(e);
-  // console.log('hello');
   let borrado = myLibrary.splice(this.parentElement.getAttribute('data-index'), 1);
   removeAllChildNodes(bookshelf);
   myLibrary.forEach(createBookCard);
   console.log(borrado);
   console.log(myLibrary);
   myLibrary.forEach(librito => console.log(myLibrary.indexOf(librito)));
-
 }
 
 let myLibrary = [];
 const addBookBtn = document.querySelector('#add-book-btn');
 const bookshelf = document.querySelector('div.bookshelf');
 addBookBtn.addEventListener('click', addBookBtnHandler);
-
-
-// the next books are for initially populate the library array
-const ensayoSobreLaCeguera = new Book("Ensayo sobre la Ceguera", "Jose Saramago", 295, true);
-const phantomOfTheOpera = new Book("The Phantom Of The Opera", "Gaston Leroux", 145, true);
-const andThenThereWereNone = new Book("And Then there Were None", "Agatha Christie", 272, true);
-const laVidaQueSeVa = new Book("La Vida Que Se Va", "Vicente Lenero", 100, true);
-const laTregua = new Book("La Tregua", "Mario Benedetti", 300, true);
-
-const exampleLibrary = [ensayoSobreLaCeguera, phantomOfTheOpera, andThenThereWereNone, laVidaQueSeVa, laTregua];
-exampleLibrary.forEach(addBookPrototype);
-exampleLibrary.forEach(addBookToLibrary);
