@@ -22,7 +22,6 @@ Book.prototype.readStatus = function () {
 
 function addBookToLibrary(bookObject) {
   myLibrary.push(bookObject);
-
 }
 
 function createBookCard(bookObject) {
@@ -44,10 +43,11 @@ function createBookCard(bookObject) {
 
   cardDiv.appendChild(bookInfoDisplay);
   cardDiv.appendChild(removeButton);
-  cardDiv.appendChild(readStatusButton)
+  cardDiv.appendChild(readStatusButton);
   //here is the 'data-attribute' first used! .setAttribute
   cardDiv.setAttribute('data-index', myLibrary.indexOf(bookObject));
   removeButton.addEventListener('click', removeBtnHandler);
+  readStatusButton.addEventListener('click', readStatusBtnHandler);
   bookshelf.appendChild(cardDiv);
 }
 
@@ -62,7 +62,12 @@ function addBookBtnHandler() {
   addBookToLibrary(newBook);
   removeAllChildNodes(bookshelf);
   myLibrary.forEach(createBookCard);
-  myLibrary.forEach(librito => console.log(myLibrary.indexOf(librito)));
+}
+
+function readStatusBtnHandler() {
+  let book1 = myLibrary[this.parentElement.getAttribute('data-index')];
+  book1.readAlready = !book1.readAlready;
+  this.textContent = book1.readStatus();
 }
 
 function removeAllChildNodes(parent) {
